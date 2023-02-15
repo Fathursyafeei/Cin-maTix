@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681421875006",
+    "project_id": "cin-matix",
+    "storage_bucket": "cin-matix.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681421875006:android:119cf701328877c80e6e6f",
+        "android_client_info": {
+          "package_name": "com.fathursyafeei.cin_matix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681421875006-l9c5ihqfgjr1sduf67n45kieiin78fak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZiqj4tFO6Al9KNT_pZfkuoGYa7A9tGsM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681421875006-l9c5ihqfgjr1sduf67n45kieiin78fak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
