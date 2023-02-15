@@ -20,6 +20,6 @@ Ini adalah project pertama aplikasi android menggunakan bahasa pemrograman kotli
 - Android Studio 4.2.1
 
 
-### Source
+### Acknowledgments
 - Roby Dianputra ([BagiCode](https://bagicode.com/))
 - Angga Risky ([Build With Angga](https://buildwithangga.com/))
