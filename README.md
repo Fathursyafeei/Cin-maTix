@@ -18,3 +18,8 @@ Ini adalah project pertama aplikasi android menggunakan bahasa pemrograman kotli
 - Kotlin
 - Firebase
 - Android Studio 4.2.1
+
+
+### Source
+- Roby Dianputra ([BagiCode](https://bagicode.com/))
+- Angga Risky ([Build With Angga](https://buildwithangga.com/))
