@@ -6,14 +6,17 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.fathursyafeei.cin_matix.home.HomeActivity
 import com.fathursyafeei.cin_matix.R
+import com.fathursyafeei.cin_matix.sign.signin.User
 import com.fathursyafeei.cin_matix.utils.Preferences
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.karumi.dexter.PermissionToken
@@ -34,7 +37,14 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
 
     lateinit var storage: FirebaseStorage  // inisialisasi variable firebase storage
     lateinit var storageReferensi : StorageReference
-    lateinit var preferences: Preferences
+    lateinit var preferences : Preferences
+
+    // Inisialisai Realtime DB Firebase
+    lateinit var user : User
+    lateinit var linkDB: String
+    private lateinit var mFirebaseDB : DatabaseReference
+    private lateinit var mFirebaseInstance : FirebaseDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +55,14 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
         storage = FirebaseStorage.getInstance()
         storageReferensi = storage.getReference()
 
+        // Inisialisasi value Realtime DB
+        linkDB = "https://cin-matix-default-rtdb.asia-southeast1.firebasedatabase.app/"
+        mFirebaseInstance = FirebaseDatabase.getInstance(linkDB)
+        mFirebaseDB = mFirebaseInstance.getReference("User")
+
         // bikin value untuk textview hello
-        tv_helllo.text = "Selamat datang\n" + intent.getStringExtra("nama") + "👋"
+        user = intent.getParcelableExtra("data")!!
+        tv_helllo.text = "Selamat datang\n" + user.nama + "👋"
 
         //bagian add data ( ini untuk membuka browser photo)
         iv_add.setOnClickListener {
@@ -99,13 +115,16 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
 
                         // Url nya di save ke sharedReference
                         ref.downloadUrl.addOnSuccessListener {
-                            preferences.setValues("url", it.toString())
+//                            preferences.setValues("url", it.toString())
+                            // Save to firebase
+                            saveToFirebase(it.toString())
+
                         }
 
                         // matikan activity yang ada
-                        finishAffinity()
-                        var goHome = Intent(this@SignUpPhotoActivity, HomeActivity::class.java)
-                        startActivity(goHome)
+//                        finishAffinity()
+//                        var goHome = Intent(this@SignUpPhotoActivity, HomeActivity::class.java)
+//                        startActivity(goHome)
 
                     }
                         // Kalaau tidak success
@@ -118,7 +137,7 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
                     // Menampilan progress sudah berapa persen di upload
                     .addOnProgressListener {
                         taskSnapshot -> var progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
-                        progressDialog.setMessage("Upload " + progress.toInt() + " % 🥱")
+                        progressDialog.setMessage("Upload 🥱 " + progress.toInt() + " %")
                     }
 
 
@@ -129,6 +148,38 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
                     "Anda belum menekan pencarian foto 😩",Toast.LENGTH_LONG).show()
             }
         }
+
+    }
+
+    private fun saveToFirebase(url: String) {
+        mFirebaseDB.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                user.url = url
+
+                mFirebaseDB.child(user.username!!).setValue(user)
+
+                preferences.setValues("nama", user.nama.toString())
+                preferences.setValues("user", user.username.toString())
+                preferences.setValues("saldo", "")
+                preferences.setValues("url", "")
+                preferences.setValues("email", user.email.toString())
+                preferences.setValues("status", "1")
+                preferences.setValues("url", url)
+
+                finishAffinity()
+                val goHome = Intent(this@SignUpPhotoActivity,
+                    HomeActivity::class.java)
+                startActivity(goHome)
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@SignUpPhotoActivity, "" + error.message,
+                    Toast.LENGTH_LONG).show()
+            }
+
+        })
 
     }
 
@@ -153,7 +204,7 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
     }
 
     override fun onPermissionRationaleShouldBeShown(
-        permission: PermissionRequest?,
+        permission: com.karumi.dexter.listener.PermissionRequest?,
         token: PermissionToken?
     ) {
 

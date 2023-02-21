@@ -36,6 +36,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.fathursyafeei.cin_matix'
 }
 
 dependencies {

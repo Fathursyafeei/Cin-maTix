@@ -77,11 +77,13 @@ class DashboardFragment : Fragment() {
         Glide.with(this)
             .load(preferences.getValues("url"))
             .apply(RequestOptions.circleCropTransform())
+            .placeholder(R.drawable.user_pic)
+            .error(R.drawable.user_pic)
             .into(iv_profile)
 
         // Siapin recycle View
         rv_now_playing.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) // horiZontal
-        rv_coming_soon.layoutManager = LinearLayoutManager(context) // Menggunakan layour vertikal
+        rv_coming_soon.layoutManager = LinearLayoutManager(context!!.applicationContext) // Menggunakan layour vertikal
 
         getData()
 
