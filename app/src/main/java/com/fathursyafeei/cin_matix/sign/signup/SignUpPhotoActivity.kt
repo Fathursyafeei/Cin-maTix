@@ -65,6 +65,7 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
 
                 ImagePicker.with(this)
                     .cameraOnly()	//User can only capture image using Camera
+                    .compress(1024)
                     .start()
 
             }
@@ -141,8 +142,9 @@ class SignUpPhotoActivity : AppCompatActivity(), PermissionListener {
 //        }
 
         ImagePicker.with(this)
-            .cameraOnly()	//User can only capture image using Camera
-            .start()
+            .cameraOnly()
+            .compress(1024)
+            .start()  //User can only capture image using Camera
     }
 
     override fun onPermissionDenied(response: PermissionDeniedResponse?) {
