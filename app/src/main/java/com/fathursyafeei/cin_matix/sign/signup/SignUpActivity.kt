@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.fathursyafeei.cin_matix.R
 import com.fathursyafeei.cin_matix.sign.signin.SignInActivity
 import com.fathursyafeei.cin_matix.sign.signin.User
+import com.fathursyafeei.cin_matix.utils.Preferences
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -23,6 +24,8 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var mDatabaseReference: DatabaseReference
     lateinit var linkDB:String
 
+    private lateinit var preferences : Preferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -32,6 +35,8 @@ class SignUpActivity : AppCompatActivity() {
         mFirebaseInstance = FirebaseDatabase.getInstance(linkDB)
         mDatabase = FirebaseDatabase.getInstance(linkDB).getReference()
         mDatabaseReference = mFirebaseInstance.getReference("User")
+
+        preferences = Preferences(this)
 
         im_back.setOnClickListener {
             var goBack = Intent (this@SignUpActivity, SignInActivity::class.java)
@@ -59,19 +64,28 @@ class SignUpActivity : AppCompatActivity() {
                 et_nama.requestFocus()
             }
             else if(sEmail.equals("")){
-                et_email.error = "Silahkan isi username Anda!"
+                et_email.error = "Silahkan isi email Anda!"
                 et_email.requestFocus()
             }
             else{
-                // Func penyimpanan data ke firebase
-                saveUsername(sUsername, sPassword, sNama, sEmail)
+                //Fix Bug with fill have "."
+                var statusUsername = sUsername.indexOf(".")
+                if (statusUsername >= 0){
+                    et_username.error = "Silahkan isi Username Anda tanpa ."
+                    et_username.requestFocus()
+                }
+                else{
+                    // Func penyimpanan data ke firebase
+                    saveUser(sUsername, sPassword, sNama, sEmail)
+                }
+
             }
 
         }
 
     }
 
-    private fun saveUsername(sUsername: String, sPassword: String, sNama: String, sEmail: String) {
+    private fun saveUser(sUsername: String, sPassword: String, sNama: String, sEmail: String) {
         // Menampung data agar func tidak terlalu banyak
         var user = User()  //Mengambil / meng extend dari  class User
         //set Value
@@ -97,19 +111,27 @@ class SignUpActivity : AppCompatActivity() {
                 val user = dataSnapshot.getValue(User::class.java)
                 // Pengecekan data
                 // jika null akunya bisa dibuat
-                if(user == null){
+                if(user == null || user.toString() == ""){
 
                     // Set Database (Menyimpan ke database)
                     mDatabaseReference.child(sUsername).setValue(data)
 
+                    preferences.setValues("nama", data.nama.toString())
+                    preferences.setValues("user", data.username.toString())
+                    preferences.setValues("saldo", "")
+                    preferences.setValues("url", "")
+                    preferences.setValues("email", data.email.toString())
+                    preferences.setValues("status", "1")
+
                     // Setelah selesai melakukan penyimpanan maka lempar ke signup photo adtivity
                     var goToSignUpPhoto = Intent(this@SignUpActivity,
-                        SignUpPhotoActivity::class.java).putExtra("nama", data.nama)
+                        SignUpPhotoActivity::class.java).putExtra("data", data)
                     startActivity(goToSignUpPhoto)
 
-                } else{
+                }
+                else{
                     Toast.makeText(this@SignUpActivity, "User sudah digunakan!",
-                        Toast.LENGTH_LONG).show()
+                        Toast.LENGTH_SHORT).show()
                 }
 
             }

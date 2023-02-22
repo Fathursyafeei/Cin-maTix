@@ -49,4 +49,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_total"
         tools:itemCount="5"
         tools:listitem="@layout/row_item_coming_soon" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,6 +42,8 @@ class SettingFragment : Fragment() {
 
         Glide.with(this)
             .load(preferences.getValues("url"))
+            .error(R.drawable.user_pic)
+            .placeholder(R.drawable.user_pic)
             .apply(RequestOptions.circleCropTransform())
             .into(iv_profile)
 
