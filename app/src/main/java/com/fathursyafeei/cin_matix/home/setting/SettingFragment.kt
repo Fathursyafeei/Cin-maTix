@@ -1,6 +1,7 @@
 package com.fathursyafeei.cin_matix.home.setting
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.fathursyafeei.cin_matix.R
+import com.fathursyafeei.cin_matix.home.tiket.TiketActivity
+import com.fathursyafeei.cin_matix.sign.signin.SignInActivity
 import com.fathursyafeei.cin_matix.utils.Preferences
 import kotlinx.android.synthetic.main.fragment_setting.*
 
@@ -47,6 +50,14 @@ class SettingFragment : Fragment() {
             .apply(RequestOptions.circleCropTransform())
             .into(iv_profile)
 
+
+        tv_signOut.setOnClickListener {
+            preferences.setValues("status","0")
+            activity!!.finishAffinity()
+            var intent = Intent(context, SignInActivity::class.java)
+            startActivity(intent)
+
+        }
 
     }
 

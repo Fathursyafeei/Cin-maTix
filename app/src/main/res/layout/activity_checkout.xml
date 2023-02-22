@@ -60,7 +60,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/iv_back"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginStart="16dp"
@@ -70,7 +70,7 @@
         app:srcCompat="@drawable/ic_baseline_arrow" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/tv_judul"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -80,7 +80,6 @@
         android:text="One Piece Film: Red"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -96,7 +95,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_judul" />
 
     <TextView
         android:id="@+id/textView8"

@@ -35,6 +35,8 @@ class PilihBangkuActivity : AppCompatActivity() {
                 total -= 1
 
                 beliTiket(total)
+                // Delete data
+                dataList.remove(Checkout("A3", "70000"))
             }
             else{
                 a3.setImageResource(R.drawable.ic_rectangle_selected)
@@ -56,6 +58,10 @@ class PilihBangkuActivity : AppCompatActivity() {
                 total -= 1
 
                 beliTiket(total)
+
+                // Delete data
+                dataList.remove(Checkout("A4", "70000"))
+
             }
             else{
                 a4.setImageResource(R.drawable.ic_rectangle_selected)
@@ -73,7 +79,12 @@ class PilihBangkuActivity : AppCompatActivity() {
         btn_beli_tiket.setOnClickListener {
             var intent = Intent(this@PilihBangkuActivity, CheckoutActivity::class.java)
                 .putExtra("data", dataList)
+                .putExtra("datas", data)
             startActivity(intent)
+        }
+
+        iv_back.setOnClickListener {
+            finish()
         }
 
     }
