@@ -46,5 +46,14 @@
     <string name="success_desc">Tiket telah berhasil dibeli dan\n selamat menikmati film</string>
     <string name="lihat_tiket">Lihat Tiket</string>
     <string name="home">Home</string>
+    <string name="btn_top_up">Top Up Saldo</string>
+    <string name="top_up">Top Up</string>
+    <string name="ten_k"><small>IDR\n</small> <b>19.000</b></string>
+    <string name="twenty_k"><small>IDR\n</small> <b>49.000</b></string>
+    <string name="fifty_k"><small>IDR\n</small> <b>99.000</b></string>
+    <string name="one_hundred_k"><small>IDR\n</small> <b>199.000</b></string>
+    <string name="two_n_fifty_k"><small>IDR\n</small> <b>299.000</b></string>
+    <string name="five_hundred_k"><small>IDR\n</small> <b>499.000</b></string>
+    <string name="lihat_wallet">Lihat Wallet</string>
 
 </resources>

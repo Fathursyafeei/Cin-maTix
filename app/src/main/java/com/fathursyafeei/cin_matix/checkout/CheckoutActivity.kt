@@ -9,12 +9,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fathursyafeei.cin_matix.R
 import com.fathursyafeei.cin_matix.home.tiket.TiketActivity
 import com.fathursyafeei.cin_matix.model.Checkout
 import com.fathursyafeei.cin_matix.model.Film
+import com.fathursyafeei.cin_matix.utils.Currency
 import com.fathursyafeei.cin_matix.utils.Preferences
 import kotlinx.android.synthetic.main.activity_checkout.*
 
@@ -23,11 +25,13 @@ class CheckoutActivity : AppCompatActivity() {
     private var dataList = ArrayList<Checkout>()
     private var total:Int = 0
     private lateinit var preferences : Preferences
+    private lateinit var kurensi : Currency
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
+        kurensi = Currency()
         preferences = Preferences(this)
         dataList = intent.getSerializableExtra("data") as ArrayList<Checkout>
         val data = intent.getParcelableExtra<Film>("datas")
@@ -42,18 +46,47 @@ class CheckoutActivity : AppCompatActivity() {
 
         rv_checkout.layoutManager = LinearLayoutManager(this) // versi vertical
         rv_checkout.adapter = CheckoutAdapter(dataList){
+        }
+
+        if(preferences.getValues("saldo")!!.isNotEmpty()){
+           if(preferences.getValues("saldo")!!.toDouble() >= total){
+               var saldo = preferences.getValues("saldo")
+               kurensi.currency(saldo, tv_saldo)
+               btn_tiket.visibility = View.VISIBLE
+               tv_alert.visibility = View.INVISIBLE
+           }else{
+               var saldo = preferences.getValues("saldo")
+               kurensi.currency(saldo, tv_saldo)
+               tv_saldo.setTextColor(resources.getColor(R.color.pink))
+               btn_tiket.visibility = View.INVISIBLE
+               tv_alert.visibility = View.VISIBLE
+               tv_alert.text = "Aduhh.. saldo E-Wallet kamu kurang nih 😭,\nSaatnya kamu top up sekarang!"
+           }
 
         }
+        else{
+            tv_saldo.text = "Rp0"
+            tv_saldo.setTextColor(resources.getColor(R.color.pink))
+            btn_tiket.visibility = View.INVISIBLE
+            tv_alert.visibility = View.VISIBLE
+            tv_alert.text = "Aduhh.. saldo E-Wallet kamu kurang nih 😭,\nSaatnya kamu top up sekarang!"
+
+        }
+
 
         btn_tiket.setOnClickListener {
             var intent = Intent(this@CheckoutActivity, CheckoutSuccessActivity::class.java)
                 .putExtra("data", data)
             startActivity(intent)
 
-            showNotif(data!!)
+            showNotif(data)
         }
 
         iv_back.setOnClickListener {
+            finish()
+        }
+
+        btn_batalkan.setOnClickListener {
             finish()
         }
 
@@ -85,7 +118,8 @@ class CheckoutActivity : AppCompatActivity() {
 
         // fungsinya untuk menampung mintent diatas
         val pendingIntent =
-            PendingIntent.getActivity(this, 0, mIntent, PendingIntent.FLAG_IMMUTABLE)
+            PendingIntent.getActivity(this, 0, mIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
         // Aturan Notif
         val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
@@ -102,8 +136,8 @@ class CheckoutActivity : AppCompatActivity() {
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setLights(Color.GREEN,3000, 3000)
             .setDefaults(Notification.DEFAULT_SOUND)
-            .setContentTitle("Yey Berhasil di beli 😘")
-            .setContentText("Tiket " + datas.judul + "\tberhasil kamu dapatkan, Enjoy the Movie 🥰!")
+            .setContentTitle("Yey tiket berhasil di beli 😘")
+            .setContentText("Tiket " + datas.judul + " berhasil kamu dapatkan, Enjoy the Movie 🥰!")
 
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(115, builder.build())

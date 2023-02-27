@@ -35,8 +35,8 @@ class TiketActivity : AppCompatActivity() {
             .into(iv_poster)
 
         rv_checkout.layoutManager = LinearLayoutManager(this)
-        dataList.add(Checkout("A1", ""))
-        dataList.add(Checkout("A2", ""))
+        dataList.add(Checkout("A3", ""))
+        dataList.add(Checkout("A4", ""))
 
         rv_checkout.adapter = TiketAdapter(dataList){
 
