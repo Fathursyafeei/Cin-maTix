@@ -5,12 +5,13 @@ user bisa scroll semuanya-->
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_background_blue">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_background_blue"
+
         tools:context=".home.DashboardFragment">
 
         <TextView
@@ -68,7 +69,7 @@ user bisa scroll semuanya-->
             android:id="@+id/rv_now_playing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,8 +92,8 @@ user bisa scroll semuanya-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_coming_soon"
             android:layout_width="match_parent"
-            android:layout_height="212dp"
-            android:layout_marginStart="16dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
