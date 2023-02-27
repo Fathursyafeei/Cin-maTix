@@ -13,6 +13,7 @@ import com.fathursyafeei.cin_matix.R
 import com.fathursyafeei.cin_matix.home.tiket.TiketActivity
 import com.fathursyafeei.cin_matix.sign.signin.SignInActivity
 import com.fathursyafeei.cin_matix.utils.Preferences
+import com.fathursyafeei.cin_matix.wallet.MyWalletActivity
 import kotlinx.android.synthetic.main.fragment_setting.*
 
 
@@ -38,7 +39,7 @@ class SettingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        preferences = Preferences(context!!)
+        preferences = Preferences(context!!.applicationContext)
 
         tv_nama.text = preferences.getValues("nama")
         tv_email.text = preferences.getValues("email")
@@ -57,6 +58,11 @@ class SettingFragment : Fragment() {
             var intent = Intent(context, SignInActivity::class.java)
             startActivity(intent)
 
+        }
+
+        tv_my_wallet.setOnClickListener {
+            var intent = Intent(activity, MyWalletActivity::class.java)
+            startActivity(intent)
         }
 
     }

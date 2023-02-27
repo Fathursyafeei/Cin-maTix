@@ -31,7 +31,6 @@ class MovieDetailActivity : AppCompatActivity() {
             .child(data!!.judul.toString())
             .child("play")
 
-        Log.e("isi","" +data)
 
         tv_kursi.text = data!!.judul
 
@@ -41,6 +40,8 @@ class MovieDetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(data.poster)
+            .placeholder(R.drawable.ic_imgerorr)
+            .error(R.drawable.ic_imgerorr)
             .into(iv_poster)
 
         rv_who_play.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
